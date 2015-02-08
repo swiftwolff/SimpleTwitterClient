@@ -1,4 +1,4 @@
-package com.codepath.apps.mysimpletweets;
+package com.codepath.apps.mysimpletweets.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
 
+import com.codepath.apps.mysimpletweets.R;
+import com.codepath.apps.mysimpletweets.utils.TwitterClient;
 import com.codepath.oauth.OAuthLoginActionBarActivity;
 
 // Where the user will sign in to twitter

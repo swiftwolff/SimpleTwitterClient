@@ -1,4 +1,4 @@
-package com.codepath.apps.mysimpletweets;
+package com.codepath.apps.mysimpletweets.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,6 +29,7 @@ public class TimeStamp {
                 timestamp = TimeUnit.MILLISECONDS.toMinutes(diff) + "m";
             } else {
                 timestamp = TimeUnit.MILLISECONDS.toMinutes(diff) + "s";
+                if (timestamp.equals("0s")) timestamp = "now";
             }
         } catch (ParseException e) {
             e.printStackTrace();

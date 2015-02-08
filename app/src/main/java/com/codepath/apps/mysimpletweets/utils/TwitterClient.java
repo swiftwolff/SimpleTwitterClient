@@ -1,4 +1,4 @@
-package com.codepath.apps.mysimpletweets;
+package com.codepath.apps.mysimpletweets.utils;
 
 import org.scribe.builder.api.Api;
 import org.scribe.builder.api.FlickrApi;
@@ -39,19 +39,29 @@ public class TwitterClient extends OAuthBaseClient {
 	// DEFINE METHODS for different API endpoints here
     // METHOD == ENDPOINT
 
-    public void getHomeTimeline(AsyncHttpResponseHandler handler) {
+    public void getHomeTimeline(AsyncHttpResponseHandler handler, long newestID) {
         String apiUrl = getApiUrl("statuses/home_timeline.json");
         // Specify the params
         RequestParams params = new RequestParams();
         params.put("count", 25);
-        params.put("since_id", 1);
+        params.put("since_id", newestID);
+        // Execute the request
+        getClient().get(apiUrl, params, handler);
+    }
+
+    public void getHomeTimelineBackward(AsyncHttpResponseHandler handler, long oldestID) {
+        String apiUrl = getApiUrl("statuses/home_timeline.json");
+        // Specify the params
+        RequestParams params = new RequestParams();
+        params.put("count", 25);
+        params.put("max_id", oldestID);
+        Log.d("DEBUG", "This is the request url" + params.toString());
+        Log.d("DEBUG","Load ID before "+oldestID);
         // Execute the request
         getClient().get(apiUrl, params, handler);
     }
 
     // COMPOSE TWEET
-
-
 
     // HomeTimeline - get us home timeline
 

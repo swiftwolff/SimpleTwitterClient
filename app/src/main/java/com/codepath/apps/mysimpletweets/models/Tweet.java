@@ -1,5 +1,7 @@
 package com.codepath.apps.mysimpletweets.models;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,6 +31,7 @@ public class Tweet {
         try {
             tweet.body = jsonObject.getString("text");
             tweet.uid = jsonObject.getLong("id");
+            Log.d("DEBUG", "This is id " + tweet.uid);
             tweet.createdAt = jsonObject.getString("created_at");
             tweet.user = User.fromJSON(jsonObject.getJSONObject("user"));
         } catch (JSONException e) {
