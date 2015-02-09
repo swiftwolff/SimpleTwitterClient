@@ -4,6 +4,7 @@ import org.scribe.builder.api.Api;
 import org.scribe.builder.api.FlickrApi;
 import org.scribe.builder.api.TwitterApi;
 
+import android.app.DownloadManager;
 import android.content.Context;
 import android.util.Log;
 
@@ -59,6 +60,21 @@ public class TwitterClient extends OAuthBaseClient {
         Log.d("DEBUG","Load ID before "+oldestID);
         // Execute the request
         getClient().get(apiUrl, params, handler);
+    }
+
+    public void getCurrentUserInfo(AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl("account/verify_credentials.json");
+        // Execute the request
+        getClient().get(apiUrl, handler);
+    }
+
+    public void postTweet(AsyncHttpResponseHandler handler, String input) {
+        String apiUrl = getApiUrl("statuses/update.json");
+
+        RequestParams params = new RequestParams();
+        params.put("status", input);
+        // Execute the request
+        getClient().post(apiUrl, params, handler);
     }
 
     // COMPOSE TWEET

@@ -1,10 +1,13 @@
 package com.codepath.apps.mysimpletweets.activities;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -118,10 +121,27 @@ public class TimelineActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.barCreate) {
+            Toast.makeText(this,"Clicked!", Toast.LENGTH_LONG).show();
+            writeTweet();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void writeTweet() {
+            Intent intent = new Intent(TimelineActivity.this, WriteTweetActivity.class);
+            startActivityForResult(intent,1);  //1 is the requestcode
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK){
+                populateTimeline();
+                Toast.makeText(this,"Result is ok!", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }

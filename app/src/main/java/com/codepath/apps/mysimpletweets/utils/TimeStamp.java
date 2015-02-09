@@ -28,7 +28,7 @@ public class TimeStamp {
             } else if (TimeUnit.MILLISECONDS.toMinutes(diff)>=1) {
                 timestamp = TimeUnit.MILLISECONDS.toMinutes(diff) + "m";
             } else {
-                timestamp = TimeUnit.MILLISECONDS.toMinutes(diff) + "s";
+                timestamp = TimeUnit.MILLISECONDS.toSeconds(diff) + "s";
                 if (timestamp.equals("0s")) timestamp = "now";
             }
         } catch (ParseException e) {
