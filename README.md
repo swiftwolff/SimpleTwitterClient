@@ -17,5 +17,5 @@ User is taken back to home timeline with new tweet visible in timeline
 
 Advanced: User can refresh tweets timeline by pulling down to refresh (i.e pull-to-refresh)
 
-Walkthrough of all user stories: 
+Walkthrough of all user stories: <br />
 ![alt tag](https://cloud.githubusercontent.com/assets/1085102/6102114/0bc5933e-afe5-11e4-943b-c68437c79cc6.gif)
