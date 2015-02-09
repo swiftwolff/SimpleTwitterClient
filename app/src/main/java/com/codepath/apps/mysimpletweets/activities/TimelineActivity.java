@@ -2,6 +2,7 @@ package com.codepath.apps.mysimpletweets.activities;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,6 +33,7 @@ public class TimelineActivity extends ActionBarActivity {
     private ListView lvTweets;
     private long newestID;
     private long oldestID;
+    private SwipeRefreshLayout swipeContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,52 @@ public class TimelineActivity extends ActionBarActivity {
         // Get the client
         client = TwitterApplication.getRestClient();  // singleton client
         populateTimeline();
+
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+                fetchTimelineAsync();
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+    }
+
+    public void fetchTimelineAsync() {
+        client.getHomeTimelineOnRefresh(new JsonHttpResponseHandler() {
+            // SUCCESS
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
+                Log.d("DEBUG", json.toString());
+                // DESERIALIZE JSON
+                // CRAETE MODELS AND ADD THEM TO THE ADAPTER
+                // LOAD MODEL DATA INTO THE LISTVIEW
+                Log.d("DEBUG", "How many json objects? " + json.length());
+                Log.d("DEBUG", "Current newest ID is " + newestID);
+                tweets.clear();
+                tweets = Tweet.fromJSONArray(json);
+                if(tweets!=null && tweets.size()!=0) {
+
+//                    newestID = tweets.get(0).getUid();
+                    oldestID = tweets.get(tweets.size() - 1).getUid();
+                    aTweets.addAll(tweets);
+                    aTweets.notifyDataSetChanged();
+                }
+                swipeContainer.setRefreshing(false);
+            }
+            // FAILURE
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+            }
+        }, 1);
     }
 
     // Send an API request to get the timeline json
@@ -72,11 +120,12 @@ public class TimelineActivity extends ActionBarActivity {
                 // CRAETE MODELS AND ADD THEM TO THE ADAPTER
                 // LOAD MODEL DATA INTO THE LISTVIEW
                 ArrayList<Tweet> tweets = Tweet.fromJSONArray(json);
-                newestID = tweets.get(0).getUid();
-                oldestID = tweets.get(tweets.size() - 1).getUid();
-                aTweets.addAll(tweets);
+                if(tweets!=null && tweets.size()!=0) {
+                    newestID = tweets.get(0).getUid();
+                    oldestID = tweets.get(tweets.size() - 1).getUid();
+                    aTweets.addAll(tweets);
+                }
             }
-
             // FAILURE
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
@@ -89,7 +138,6 @@ public class TimelineActivity extends ActionBarActivity {
             // SUCCESS
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
-                Log.d("DEBUG", json.toString());
                 // DESERIALIZE JSON
                 // CRAETE MODELS AND ADD THEM TO THE ADAPTER
                 // LOAD MODEL DATA INTO THE LISTVIEW
@@ -139,7 +187,7 @@ public class TimelineActivity extends ActionBarActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if (requestCode == 1) {
             if(resultCode == RESULT_OK){
-                populateTimeline();
+                fetchTimelineAsync();
                 Toast.makeText(this,"Result is ok!", Toast.LENGTH_LONG).show();
             }
         }

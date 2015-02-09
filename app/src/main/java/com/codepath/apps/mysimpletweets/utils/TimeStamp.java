@@ -29,7 +29,7 @@ public class TimeStamp {
                 timestamp = TimeUnit.MILLISECONDS.toMinutes(diff) + "m";
             } else {
                 timestamp = TimeUnit.MILLISECONDS.toSeconds(diff) + "s";
-                if (timestamp.equals("0s")) timestamp = "now";
+                if (timestamp.equals("0s")||TimeUnit.MILLISECONDS.toSeconds(diff)<0) timestamp = "now";
             }
         } catch (ParseException e) {
             e.printStackTrace();

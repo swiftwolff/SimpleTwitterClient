@@ -31,7 +31,6 @@ public class Tweet {
         try {
             tweet.body = jsonObject.getString("text");
             tweet.uid = jsonObject.getLong("id");
-            Log.d("DEBUG", "This is id " + tweet.uid);
             tweet.createdAt = jsonObject.getString("created_at");
             tweet.user = User.fromJSON(jsonObject.getJSONObject("user"));
         } catch (JSONException e) {
