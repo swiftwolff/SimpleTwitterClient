@@ -24,15 +24,15 @@ import java.util.List;
 public class TweetsListFragment extends Fragment{
     private ArrayList<Tweet> tweets;
     private TweetsArrayAdapter aTweets;
-    private ListView lvTweets;
-    private long newestID;
-    private long oldestID;
+    protected ListView lvTweets;
+//    private long newestID;
+    protected long oldestID;
     private SwipeRefreshLayout swipeContainer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_tweets_list, container, false);
-        newestID = 1;
+//        newestID = 1;
         lvTweets = (ListView) v.findViewById(R.id.lvTweets);
         // Connect adapter to list view
         lvTweets.setAdapter(aTweets);
