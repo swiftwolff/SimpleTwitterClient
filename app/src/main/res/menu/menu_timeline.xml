@@ -7,6 +7,13 @@
         android:id="@+id/barCreate"
         android:icon="@drawable/ic_action_create"
         android:title="@string/create_label"
-        app:showAsAction="always"
-        />
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/miProfile"
+        android:icon="@drawable/ic_profile"
+        android:title="@string/profile"
+        app:showAsAction="ifRoom"
+        android:onClick="onProfileView"/>
+
 </menu>

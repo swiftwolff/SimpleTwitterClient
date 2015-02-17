@@ -1,7 +1,6 @@
 package com.codepath.apps.mysimpletweets.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,8 +36,8 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
         }
         // 3.  Find the subviews to fill with data in the template
         ImageView ivProfileImage = (ImageView) convertView.findViewById(R.id.ivProfileImage);
-        TextView tvUserName = (TextView) convertView.findViewById(R.id.tvUserName);
-        TextView tvBody = (TextView) convertView.findViewById(R.id.tvBody);
+        TextView tvUserName = (TextView) convertView.findViewById(R.id.tvName);
+        TextView tvBody = (TextView) convertView.findViewById(R.id.tvTagline);
         TextView tvTimeStamp = (TextView) convertView.findViewById(R.id.tvTimeStamp);
 
         // 4.  Populate data into the subviews
