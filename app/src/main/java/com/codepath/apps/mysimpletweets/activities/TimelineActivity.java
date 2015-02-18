@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -12,8 +13,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
@@ -23,6 +26,7 @@ import com.codepath.apps.mysimpletweets.TwitterApplication;
 import com.codepath.apps.mysimpletweets.fragments.HomeTimelineFragment;
 import com.codepath.apps.mysimpletweets.fragments.MentionsTimelineFragment;
 import com.codepath.apps.mysimpletweets.fragments.TweetsListFragment;
+import com.codepath.apps.mysimpletweets.fragments.UserTimelineFragment;
 import com.codepath.apps.mysimpletweets.listeners.EndlessScrollListener;
 import com.codepath.apps.mysimpletweets.utils.TwitterClient;
 import com.codepath.apps.mysimpletweets.models.Tweet;
@@ -32,6 +36,7 @@ import org.apache.http.Header;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TimelineActivity extends ActionBarActivity {
 
@@ -43,7 +48,7 @@ public class TimelineActivity extends ActionBarActivity {
 //    private SwipeRefreshLayout swipeContainer;
 //    private TwitterClient client;
 //    private TweetsListFragment fragmentTweetsList;
-
+    TweetsPagerAdapter tweetsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,14 +57,16 @@ public class TimelineActivity extends ActionBarActivity {
 
         // GEt the viewpager
         ViewPager vpPager = (ViewPager) findViewById(R.id.viewpager);
+
+        tweetsAdapter = new TweetsPagerAdapter(getSupportFragmentManager());
         // Set the viewpager adapter for the pager
-        vpPager.setAdapter(new TweetsPagerAdapter(getSupportFragmentManager()));
+        vpPager.setAdapter(tweetsAdapter);
+
         // Find the pager sliding tabs
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
 
         // Attach the pager tabstrip to the viewpager
         tabsStrip.setViewPager(vpPager);
-
 
 //        // Get the client
 //        client = TwitterApplication.getRestClient();  // singleton client
@@ -191,7 +198,7 @@ public class TimelineActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.barCreate) {
-            Toast.makeText(this,"Clicked!", Toast.LENGTH_LONG).show();
+//            Toast.makeText(this,"Clicked!", Toast.LENGTH_LONG).show();
             writeTweet();
             return true;
         }
@@ -207,6 +214,15 @@ public class TimelineActivity extends ActionBarActivity {
     public void onProfileView(MenuItem item) {
         // Launch profile view
         Intent i = new Intent(this, ProfileActivity.class);
+        startActivity(i);
+    }
+
+    public void profileLookUp(View view) {
+        Toast.makeText(this,"you clicked on user profile image!", Toast.LENGTH_LONG).show();
+        TextView tvName = (TextView) findViewById(R.id.tvName);
+        Toast.makeText(this,"this user is " + tvName.getText().toString(), Toast.LENGTH_LONG).show();
+        Intent i = new Intent(this, ProfileActivity.class);
+        i.putExtra("screen_name",tvName.getText().toString());
         startActivity(i);
     }
 
@@ -245,13 +261,12 @@ public class TimelineActivity extends ActionBarActivity {
         }
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-//        if (requestCode == 1) {
-//            if(resultCode == RESULT_OK){
-//                fetchTimelineAsync();
-//                Toast.makeText(this,"Result is ok!", Toast.LENGTH_LONG).show();
-//            }
-//        }
-//    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK){
+                tweetsAdapter.getItem(0);
+            }
+        }
+    }
 }

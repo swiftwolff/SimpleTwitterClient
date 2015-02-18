@@ -52,7 +52,7 @@ public class MentionsTimelineFragment extends TweetsListFragment {
         populateTimeline();
     }
 
-    private void populateTimeline() {
+    public void populateTimeline() {
         client.getMentionsTimeline(new JsonHttpResponseHandler() {
             // SUCCESS
 
@@ -79,7 +79,7 @@ public class MentionsTimelineFragment extends TweetsListFragment {
         });
     }
 
-    private void populateTimelineBackward() {
+    public void populateTimelineBackward() {
         client.getMentionsTimelineBackward(new JsonHttpResponseHandler() {
             // SUCCESS
             @Override

@@ -50,12 +50,16 @@ public class User {
 
     public static User fromJSON(JSONObject json) {
         // Extract and fill the values
-
+        Log.d("DEBUG", "checking json items");
+        Log.d("DEBUG", json.toString());
         User u = new User();
         try {
             u.name = json.getString("name");
+            Log.d("DEBUG", u.name);
             u.uid = json.getLong("id");
+            Log.d("DEBUG", ""+u.uid);
             u.screenName = json.getString("screen_name");
+            Log.d("DEBUG", ""+u.screenName);
             u.profileImageUrl = json.getString("profile_image_url");
 //            Log.d("DEBUG", "profile image url is " + u.profileImageUrl);
             u.tagline = json.getString("description");

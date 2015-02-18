@@ -48,7 +48,7 @@ public class HomeTimelineFragment extends TweetsListFragment {
         populateTimeline();
     }
 
-    private void populateTimeline() {
+    public void populateTimeline() {
         client.getHomeTimeline(new JsonHttpResponseHandler() {
             // SUCCESS
 
@@ -75,7 +75,7 @@ public class HomeTimelineFragment extends TweetsListFragment {
         }, 1);
     }
 
-    private void populateTimelineBackward() {
+    public void populateTimelineBackward() {
         client.getHomeTimelineBackward(new JsonHttpResponseHandler() {
             // SUCCESS
             @Override

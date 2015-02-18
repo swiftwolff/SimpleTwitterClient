@@ -124,6 +124,14 @@ public class TwitterClient extends OAuthBaseClient {
         getClient().get(apiUrl, null, handler);
     }
 
+    public void getScreenNameInfo(String screenName, AsyncHttpResponseHandler handler) {
+        Log.d("DEBUG", "we are in getScreenNameInfo");
+        String apiUrl = getApiUrl("users/lookup.json");
+        RequestParams params = new RequestParams();
+        params.put("screen_name", screenName);
+        getClient().get(apiUrl, params, handler);
+    }
+
     // COMPOSE TWEET
 
     // HomeTimeline - get us home timeline
